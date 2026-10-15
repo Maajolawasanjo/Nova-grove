@@ -1,0 +1,29 @@
+"use client";
+import Link from "next/link";
+import { useState } from "react";
+import { ArrowDown, ArrowRight, Leaf, Minus, Plus, ShoppingBag, Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
+import { useCart } from "@/components/cart-context";
+
+const products = [
+  { id: "cacao-no-04", name: "Cacao No. 04", type: "Cacao · Kola · Alligator pepper", note: "Smoky, warm, lingering", price: 18500, tone: "cacao", glyph: "04", moment: "After dusk" },
+  { id: "hibiscus-no-07", name: "Hibiscus No. 07", type: "Hibiscus · Baobab · Rosehip", note: "Tart, floral, bright", price: 14500, tone: "hibiscus", glyph: "07", moment: "Slow afternoons" },
+  { id: "moringa-no-11", name: "Moringa No. 11", type: "Moringa · Lemongrass · Mint", note: "Green, clean, cooling", price: 16000, tone: "moringa", glyph: "11", moment: "Early mornings" },
+];
+
+export default function Home() {
+  const [active, setActive] = useState(products[0]);
+  const [quantity, setQuantity] = useState(1);
+  const [added, setAdded] = useState(false);
+  const { add } = useCart();
+  return <main>
+    <section className="hero" id="home"><SiteHeader dark overlay/><div className="hero-content shell"><p className="eyebrow"><span/> Rooted in West Africa · Batch 01</p><h1>Wild ingredients.<br/><em>Quietly refined.</em></h1><p className="hero-copy">Botanical provisions shaped by origin—hibiscus, cacao and healing leaves, gathered close to their source and composed for the modern ritual.</p><div className="hero-actions"><Link className="primary-link" href="/shop">Explore the collection <ArrowRight/></Link><Link className="text-link" href="/story">Trace our ingredients</Link></div></div><a href="#collection" className="scroll-note"><span>Discover</span><ArrowDown/></a><div className="edition-card"><span>Current edition</span><strong>Amber Cacao</strong><small>Hibiscus · Kola · Cacao</small></div></section>
+    <section className="manifesto shell" id="origin"><div className="section-index">01 <span/></div><p className="manifesto-kicker">The grove philosophy</p><h2>We let every ingredient<br/>speak of <em>where it began.</em></h2><div className="manifesto-grid"><p>Nova Grove works with smallholder growers and botanical makers across West Africa. We choose slowly, preserve carefully and blend with a light hand.</p><div className="principles"><span><b>01</b>Close to source</span><span><b>02</b>Made in small batches</span><span><b>03</b>Nothing unnecessary</span></div></div><Link className="section-route" href="/story">Read our story <ArrowRight/></Link></section>
+    <section className="collection" id="collection"><div className="shell collection-head"><div><p className="eyebrow dark"><span/> The botanical collection</p><h2>Choose your<br/><em>daily ritual.</em></h2></div><p>Three compositions. Distinct origins. Each one created to meet a different hour of your day.</p></div><div className="product-stage shell"><div className={`product-visual ${active.tone}`}><span className="vertical-word">NOVA GROVE</span><div className="halo"/><div className="jar"><div className="lid"/><div className="jar-label"><Leaf/><small>BOTANICAL PROVISION</small><strong>{active.glyph}</strong><span>NOVA GROVE</span></div></div><p className="batch-mark">Batch<br/><b>01—26</b></p></div><div className="product-panel"><div className="product-tabs" role="tablist" aria-label="Botanical blends">{products.map((p) => <button role="tab" aria-selected={active.id === p.id} key={p.id} onClick={() => { setActive(p); setQuantity(1); setAdded(false); }}>{p.glyph}</button>)}</div><div className="product-meta"><p>{active.type}</p><h3>{active.name}</h3><span>{active.note}</span></div><div className="tasting"><div><small>Best moment</small><strong>{active.moment}</strong></div><div><small>Makes</small><strong>24 servings</strong></div></div><div className="purchase"><strong>₦{active.price.toLocaleString()}</strong><div className="quantity"><button onClick={() => setQuantity(Math.max(1, quantity - 1))} aria-label="Decrease quantity"><Minus/></button><span>{quantity}</span><button onClick={() => setQuantity(quantity + 1)} aria-label="Increase quantity"><Plus/></button></div><Button onClick={() => { add(active, quantity); setAdded(true); }}>{added ? "Added to bag" : "Add to bag"} <ShoppingBag/></Button></div><p className="micro-copy"><Sparkles/> Packed fresh within 48 hours of your order.</p><Link className="section-route" href={`/shop/${active.id}`}>View full details <ArrowRight/></Link></div></div></section>
+    <section className="membership-home"><div className="shell"><p className="page-label">The Grove membership</p><h2>A seasonal provision at your door.<br/><em>A living archive on your screen.</em></h2><p>Join a slower rhythm of discovery with monthly botanical drops, guided tastings, and field notes from growers and makers.</p><Link className="primary-link" href="/membership">Explore membership <ArrowRight/></Link></div></section>
+    <section className="ritual" id="ritual"><div className="shell ritual-grid"><div className="ritual-number">24<span>slow pours</span></div><div><p className="eyebrow dark"><span/> The ritual</p><h2>One spoon.<br/>A little patience.</h2><p>Steep for four minutes. Let the botanicals open fully, then enjoy it warm or pour slowly over ice.</p><Link href="/journal" className="text-link dark-link">Visit the journal <ArrowRight/></Link></div><div className="ritual-steps"><span><b>01</b><em>Measure</em><small>One generous spoon</small></span><span><b>02</b><em>Awaken</em><small>Fresh water, just off boil</small></span><span><b>03</b><em>Pause</em><small>Four unhurried minutes</small></span></div></div></section>
+    <SiteFooter/>
+  </main>;
+}
