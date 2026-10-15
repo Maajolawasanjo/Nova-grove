@@ -6,7 +6,7 @@ A premium, multi-page botanical brand website inspired by West African ingredien
 
 [View website](https://nova-grove.maajolawasanjo.chatgpt.site) · [Report an issue](https://github.com/Maajolawasanjo/Nova-grove/issues)
 
-![Nova Grove botanical hero artwork](public/nova-grove-hero.png)
+![Nova Grove homepage — Wild ingredients. Quietly refined.](docs/images/nova-grove-homepage.png)
 
 ## Overview
 
